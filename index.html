@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aventura de Estudos do Bernardo</title>
+  <meta name="description" content="Estudo interativo de História e Geografia — 3ª etapa: campo, povos indígenas e comunidades tradicionais, ruas do município e tecnologia.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦉</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topo">
+    <a href="#/" class="logo" aria-label="Voltar para o início">
+      <span class="logo-coruja">🦉</span>
+      <span class="logo-texto">Aventura de Estudos<small>do Bernardo</small></span>
+    </a>
+    <div class="topo-acoes">
+      <span class="estrelas-total" id="estrelasTotal" title="Estrelas conquistadas">⭐ 0</span>
+      <button class="btn-icone" id="btnSom" title="Ligar/desligar sons" aria-label="Ligar ou desligar sons">🔔</button>
+    </div>
+  </header>
+
+  <main id="app" tabindex="-1"></main>
+
+  <footer class="rodape">
+    Feito com 💛 para o Bernardo estudar para a prova final — 3ª etapa
+  </footer>
+
+  <div id="confete" aria-hidden="true"></div>
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/conteudo.js"></script>
+  <script src="js/simulados.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
