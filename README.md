@@ -1,29 +1,30 @@
 # 🦉 Aventura de Estudos do Bernardo
 
-Site de estudo interativo de História e Geografia, 3ª etapa. Feito só com HTML, CSS e JavaScript, sem build e sem dependências.
+Site de estudo interativo de Geografia, 4ª etapa. Feito só com HTML, CSS e JavaScript, sem build e sem dependências.
 
 ## Capítulos
 | Cap. | Tema |
 |---|---|
-| 2 | O município e o campo |
-| 4 | Os povos indígenas e as comunidades tradicionais |
-| 7 | As ruas do município |
-| 10 | Tecnologia por todos os lados |
+| 1 | Os lugares são diferentes |
+| 4 | As paisagens mudam |
+| 7 | O município e seus espaços |
+
+> A versão anterior (História, 3ª etapa: campo, povos indígenas, ruas e tecnologia) continua no histórico do Git, no commit `3c8b1e0`.
 
 Cada capítulo tem:
 - **Aprender**: lição em passos, com leitura em voz alta 🔊 e cartão "Você sabia?"
 - **Vídeos**: vídeos em PT-BR do YouTube
-- **Jogos**: classificar (arrastar), ligar colunas, ordenar, verdadeiro/falso e o jogo do mapa (cap. 7)
+- **Jogos**: classificar (arrastar), ligar colunas, ordenar e verdadeiro/falso. O código também tem um jogo de mapa (`tipo: "mapa"`), usado na versão de História
 - **Simulado**: 20 questões (múltipla escolha + abertas), embaralhadas a cada tentativa, com versão para imprimir e gabarito
 
-Também há um **Simulado Geral**, com 20 questões sorteadas dos 4 capítulos.
+Também há um **Simulado Geral**, com 20 questões sorteadas de todos os capítulos.
 
 ## Estrutura
 ```
 index.html
 css/style.css
-js/conteudo.js    ← textos das lições, vídeos e jogos (edite aqui)
-js/simulados.js   ← 80 questões (na múltipla escolha, a 1ª opção é a correta)
+js/conteudo.js    ← disciplina/etapa (CONFIG), lições, vídeos e jogos (edite aqui)
+js/simulados.js   ← 20 questões por capítulo (na múltipla escolha, a 1ª opção é a correta)
 js/app.js         ← lógica do site
 ```
 

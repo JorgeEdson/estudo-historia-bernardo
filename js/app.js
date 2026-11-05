@@ -7,6 +7,7 @@
 
   const app = document.getElementById("app");
   const CAPS = window.CAPITULOS;
+  const CFG = Object.assign({ disciplina: "Estudos", etapa: "" }, window.CONFIG);
   const SIMS = window.SIMULADOS;
   const capPorId = (id) => CAPS.find((c) => c.id === id);
 
@@ -37,7 +38,7 @@
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
   /* ---------------- progresso (salvo no navegador) ---------------- */
-  const CHAVE = "aventura-bernardo-v1";
+  const CHAVE = "aventura-bernardo-" + (CFG.disciplina + "-" + CFG.etapa).toLowerCase().replace(/[^a-z0-9]+/g, "-");
   let prog = { secoes: {}, jogos: {}, sim: {}, som: true };
   try {
     const salvo = JSON.parse(localStorage.getItem(CHAVE));
@@ -177,7 +178,7 @@
         <div class="hero-coruja" aria-hidden="true">🦉</div>
         <div>
           <h1>Bora estudar, Bernardo!</h1>
-          <p>História e Geografia — prova final da 3ª etapa</p>
+          <p>${CFG.disciplina} — prova final da ${CFG.etapa}</p>
           <div class="balao" id="balaoLia">${frases[0]}</div>
           <div class="linha-botoes" style="margin-top:10px">
             <button class="btn btn-pequeno" id="ouvirLia">🔊 Ouvir a Lia</button>
@@ -212,7 +213,7 @@
     app.appendChild(h(`
       <section class="bloco tema-geral">
         <h2>📝 Hora do simulado!</h2>
-        <p>Cada capítulo tem um simulado com <b>20 questões embaralhadas</b> (de marcar e de escrever). Também tem o <b>Simulado Geral</b>, que mistura os 4 temas.</p>
+        <p>Cada capítulo tem um simulado com <b>20 questões embaralhadas</b> (de marcar e de escrever). Também tem o <b>Simulado Geral</b>, que mistura os ${CAPS.length} temas.</p>
         <div class="linha-botoes">
           <a class="btn btn-cor btn-grande" href="#/simulados">Escolher simulado</a>
           ${melhorGeral != null ? `<span class="selo feito">Melhor nota no geral: ${fmt(melhorGeral)}/20</span>` : ""}
@@ -225,7 +226,7 @@
         <ul class="lista-dicas">
           <li><b>Aprender</b>: a lição vem em pequenos passos. O botão 🔊 lê o texto em voz alta.</li>
           <li><b>Vídeos</b>: vídeos em português do YouTube sobre cada tema (vale assistir antes).</li>
-          <li><b>Jogos</b>: arrastar, ligar, ordenar, verdadeiro ou falso e o jogo do mapa.</li>
+          <li><b>Jogos</b>: arrastar, ligar, ordenar e verdadeiro ou falso.</li>
           <li><b>Simulado</b>: nas questões abertas, o Bernardo escreve, depois vê a resposta esperada e vocês decidem juntos se acertou.</li>
           <li>Também dá para <b>imprimir</b> cada simulado (com gabarito) para treinar no papel.</li>
           <li>O progresso fica salvo neste navegador. <button class="btn btn-pequeno" id="zerar">🔄 Zerar progresso</button></li>
@@ -767,7 +768,7 @@
     grade.appendChild(h(`
       <a class="card-cap tema-geral" href="#/simulado/geral">
         <div class="card-cap-topo"><span class="card-cap-emoji">🌈</span><div><div class="card-cap-num">Todos os temas</div><h2>Simulado Geral</h2></div></div>
-        <div class="card-cap-corpo"><p>20 questões sorteadas dos 4 capítulos, tudo misturado${mg != null ? ` • melhor nota: ${fmt(mg)}/20` : ""}</p></div>
+        <div class="card-cap-corpo"><p>20 questões sorteadas dos ${CAPS.length} capítulos, tudo misturado${mg != null ? ` • melhor nota: ${fmt(mg)}/20` : ""}</p></div>
       </a>`));
     app.appendChild(grade);
     app.appendChild(h(`<div class="linha-botoes" style="margin-top:20px"><button class="btn" id="impGeral">🖨️ Imprimir simulado geral</button></div>`));
@@ -778,11 +779,15 @@
     let base;
     if (id === "geral") {
       base = [];
+      // 20 questões divididas entre os capítulos (cerca de 70% de marcar e 30% abertas)
+      const porCap = Math.ceil(20 / CAPS.length);
+      const nAb = Math.max(1, Math.round(porCap * 0.3));
       CAPS.forEach((cap) => {
-        const mc = embaralhar(SIMS[cap.id].filter((q) => q.tipo === "mc")).slice(0, 3);
-        const ab = embaralhar(SIMS[cap.id].filter((q) => q.tipo === "ab")).slice(0, 2);
+        const mc = embaralhar(SIMS[cap.id].filter((q) => q.tipo === "mc")).slice(0, porCap - nAb);
+        const ab = embaralhar(SIMS[cap.id].filter((q) => q.tipo === "ab")).slice(0, nAb);
         mc.concat(ab).forEach((q) => base.push(Object.assign({ cap: cap.id }, q)));
       });
+      base = embaralhar(base).slice(0, 20);
     } else {
       base = SIMS[id].map((q) => Object.assign({ cap: id }, q));
     }
@@ -968,6 +973,9 @@
   }
 
   /* ---------------- início ---------------- */
+  document.title = "Aventura de Estudos do Bernardo — " + CFG.disciplina;
+  const rodape = document.querySelector(".rodape");
+  if (rodape) rodape.textContent = "Feito com 💛 para o Bernardo estudar para a prova final — " + CFG.disciplina + ", " + CFG.etapa;
   atualizarEstrelas();
   rota();
 })();
